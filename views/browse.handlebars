@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Book Store</title>
+    <!-- Include necessary CSS and JavaScript files for Bootstrap -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+  </head>
+  <body>
+    <div class="container">
+  <div class="d-flex justify-content-center mt-4">
+    <div class="input-group w-50">
+      <input
+        id="searchInput"
+        type="search"
+        class="form-control rounded"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="search-addon"
+      />
+      <button id="searchButton" type="button" class="btn btn-outline-primary">Search</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Book Results!</h2>
+    <div id="noResultsMessage" style="display: none; background-color: #f8d7da; padding: 10px; color: #721c24;">Book not available</div>
+    <div class="row">
+      {{#each book as |books|}}
+      {{>book-details}}
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    
+    <script>
+  const bookCards = document.querySelectorAll('.book-card');
+  const noResultsMessage = document.getElementById('noResultsMessage');
+
+  document.getElementById('searchButton').addEventListener('click', () => {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    let hasResults = false;
+
+    bookCards.forEach(card => {
+      const title = card.querySelector('h4').innerText.toLowerCase();
+      const description = card.querySelector('p').innerText.toLowerCase();
+
+      if (title.includes(searchTerm) || description.includes(searchTerm)) {
+        card.style.display = 'block';
+        hasResults = true;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (!hasResults) {
+      noResultsMessage.style.display = 'block';
+    } else {
+      noResultsMessage.style.display = 'none';
+    }
+  });
+</script>
+  </body>
+</html>
